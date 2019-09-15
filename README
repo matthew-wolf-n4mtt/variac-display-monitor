@@ -1,0 +1,71 @@
+15-SEP-2019 Matthew J. Wolf Email: matthew.wolf at speciosus.net
+
+N4MTT Variable Voltage and Current Arduino Sketch 
+
+A modified version Arduino script for the project that 
+first appeared in the March 2015 issue of the ARRL QEX. 
+The title of the article is "An Experimenter's Variable 
+Voltage Transformer". 
+
+I did not use a Arduino board. I used a ATMEGA328 that was loaded
+with the Arduino boot loader. The provided schematic diagram does
+not include all the details. My schematic and the schematic from
+the QEX article are need for all the details.  
+  
+The major modifications are: 
+ - Replacement of the floating point math for the the
+   senors with lookup tables.
+ - Addition of two buttons to enable adjustable current   
+   limit.
+ - Added a 5 volt reference.
+
+-- Original comments from the original Ted Drell, W5HEU, 
+  version of the sketch. --
+ 
+  Variac Voltage and Current Monitor
+  Set for a 16x2 LCD display.
+  The circuit:
+   LCD RS pin to digital pin 7
+   LCD Enable pin to digital pin 6
+   LCD D4 pin to digital pin 5
+   LCD D5 pin to digital pin 4
+   LCD D6 pin to digital pin 3
+   LCD D7 pin to digital pin 2
+   LCD R/W pin to ground
+   10K resistor:
+   ends to +5V and ground
+   wiper to LCD VO pin (pin 3)
+ 
+  Library originally added 18 Apr 2008
+  by David A. Mellis
+  library modified 5 Jul 2009
+  by Limor Fried (http://www.ladyada.net)
+
+ -- End of Ted Drell's, W5HEU Comments --
+ 
+
+The ATMEGA328P does not have A FPU. I replaced the
+floating point math for the voltage and current 
+sensor with a lookup tables. The ADC has 1024 possible 
+values. It is easy to determine all the possible
+values for each of the ADC values because the range
+of the senors is known. 
+
+I added two buttons so that max current could be 
+adjustable. The Range for the current is from the
+MaxCur variable to 0.01 . The max current is saved to 
+EEPROM when current menu is exited with 5th 
+push of button A. The max current is restored 
+when the microprocessor is reset or power cycled.  
+ -1st push A display Menu        - B button exit 
+ -2nd push A Cursor on Amp       - B button inc AMP (0 to max)
+ -3rd push A Cursor on deci Amp  - B button inc deci Amp
+ -4th push A Cursor on centi Amp - B button inc centi Amp
+ -5th Push A exit Menu
+ -The cursor blinks on the decimal point that is 
+  changed by button B.
+ 
+ I formatted the voltage line on the LCD so that it 
+ stays in the same column on the LCD for all values. 
+ 
+I used a 5 Amp Variac vs the 3 Amp Variac of the original design. 
